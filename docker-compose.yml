@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:16.12-bookworm
-    container_name: pg-server
+    #container_name: pg-server
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -19,16 +19,17 @@ services:
 
   app:
     build: .
-    container_name: source-data-app
+    #container_name: source-data-app
     depends_on:
       postgres:
         condition: service_healthy
     environment:
-      - DB_HOST=pg-server
-      - DB_PORT=5432
-      - DB_NAME=pg_db
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: pg_db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      INTERVAL: 10  # Интервал в секундах
     ports:
       - "5000:5000"
 
